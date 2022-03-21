@@ -121,13 +121,17 @@ function SearchVisualizer() {
 
       console.log("The target is: " + target);
       console.log("The low and high is : " + low, high);
+      let arrayBars = document.getElementsByClassName("array-bar");
+
+      for (let i = 0; i < numbers.length - 1; i++) {
+        arrayBars[i].style.backgroundColor = "red";
+      }
 
       while (low <= high) {
         let mid = Math.floor((low + high) / 2);
         // console.log(mid, numbers[mid]);
         console.log(low);
 
-        let arrayBars = document.getElementsByClassName("array-bar");
         setTimeout(() => {
           arrayBars[mid].style.backgroundColor = "green";
           callMySound(soundSrc);
