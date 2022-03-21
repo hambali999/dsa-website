@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./SearchVisualizer.css";
+import { Howl, Howler } from "howler";
 
 function SearchVisualizer() {
   const [numbers, setNumbers] = useState([]);
@@ -11,9 +12,22 @@ function SearchVisualizer() {
     resetNumbers();
   }, []);
 
+  //SOUNDS
+  const soundSrc =
+    "http://commondatastorage.googleapis.com/codeskulptor-assets/week7-bounce.m4a";
+  //http://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/alien_shoot.wav
+  const callMySound = (src) => {
+    const sound = new Howl({
+      src,
+      html5: true,
+      volume: 0.05,
+    });
+    sound.play();
+  };
+
   function resetNumbers() {
-    let range = 400;
-    let outputCount = 400;
+    let range = 450;
+    let outputCount = 450;
     //https://dev.to/sagdish/generate-unique-non-repeating-random-numbers-g6g
     let arr = [];
     for (let i = 1; i <= range; i++) {
@@ -34,8 +48,8 @@ function SearchVisualizer() {
   function resetArray() {
     setTargetPosition(0); //reset position
 
-    let range = 400;
-    let outputCount = 400;
+    let range = 450;
+    let outputCount = 450;
     //https://dev.to/sagdish/generate-unique-non-repeating-random-numbers-g6g
     let arr = [];
     for (let i = 1; i <= range; i++) {
@@ -73,6 +87,7 @@ function SearchVisualizer() {
         let arrayBars = document.getElementsByClassName("array-bar");
         setTimeout(() => {
           arrayBars[i].style.backgroundColor = "green";
+          callMySound(soundSrc);
         }, (i + 1) * 10);
         console.log(i, numbers[i]);
         if (numbers[i] === target) {
@@ -109,12 +124,22 @@ function SearchVisualizer() {
 
       while (low <= high) {
         let mid = Math.floor((low + high) / 2);
-        console.log(mid, numbers[mid]);
+        // console.log(mid, numbers[mid]);
+        console.log(low);
+
+        let arrayBars = document.getElementsByClassName("array-bar");
+        setTimeout(() => {
+          arrayBars[mid].style.backgroundColor = "green";
+          callMySound(soundSrc);
+        }, (mid + 1) * 10);
 
         if (numbers[mid] === target) {
-          console.log("The position is: " + mid);
-          alert("THE POSITION IS" + mid);
-          setTargetPosition(mid);
+          setTimeout(() => {
+            arrayBars[mid].style.height = "600px";
+            arrayBars[mid].style.backgroundColor = "black";
+            callMySound(soundSrc);
+            setTargetPosition(mid);
+          }, (mid + 1) * 10);
           return;
         } else if (numbers[mid] < target) {
           low = mid + 1;
@@ -165,6 +190,9 @@ function SearchVisualizer() {
       </div>
       <div>The target is: {target}</div>
       <div>The position of the target: {targetPosition}</div>
+      <div>
+        <button onClick={() => callMySound(soundSrc)}>Click</button>
+      </div>
     </>
   );
 }
